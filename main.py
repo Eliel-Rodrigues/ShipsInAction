@@ -1,6 +1,6 @@
 
 import pygame
-
+#Setup Start
 pygame.init()
 window = pygame.display.set_mode(size=(600,400))
 
