@@ -12,14 +12,9 @@ class Game:
                                                     WIN_HEIGHT))
 
     def run(self):
-        pygame.mixer_music.load('./assets/')
-        pygame.mixer_music.play()
+
         while True:
             menu = Menu(self.window)
             menu.run()
 
-            # for event in pygame.event.get():
-            #     if event.type == pygame.QUIT:
-            #         pygame.quit()
-            #         quit()
-            # pass
+
