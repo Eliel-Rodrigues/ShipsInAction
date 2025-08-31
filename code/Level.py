@@ -4,7 +4,7 @@ import pygame.display
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY
+from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY, COLOR_YELLOW
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from code.EntityMediator import EntityMediator
@@ -34,6 +34,8 @@ class Level:
                     shoot = ent.shoot()
                     if shoot is not None:
                         self.entity_list.append(shoot)
+                if ent.nome == 'Player1':
+                    self.level_text(14, f'Player - Health: {ent.health}  |  Score: {ent.score}', COLOR_YELLOW, (10, 25))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
