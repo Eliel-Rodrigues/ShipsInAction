@@ -22,7 +22,7 @@ class Player(Entity):
             self.rect.centerx += ENTITY_SPEED[self.nome]
 
     def shoot(self):
-        self.shot_delay -= 1
+        self.shot_delay -= 20
         if self.shot_delay == 0:
             self.shot_delay = 20
             pressed_key = pygame.key.get_pressed()
