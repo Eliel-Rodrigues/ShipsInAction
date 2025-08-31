@@ -4,7 +4,7 @@ import pygame.display
 from pygame import Surface, Rect
 from pygame.font import Font
 
-from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY, COLOR_YELLOW
+from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY, COLOR_YELLOW, EVENT_TIMEOUT
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
 from code.EntityMediator import EntityMediator
@@ -16,12 +16,14 @@ class Level:
         self.timeout = 2000
         self.window = window
         self.name = name
+        print(self.name)
         self.menu_option = menu_option
         self.entity_list: list[Entity] = []
-        self.entity_list.extend(EntityFactory.get_entity('Level1bg'))
+        self.entity_list.extend(EntityFactory.get_entity(self.name+'bg'))
         self.entity_list.append(EntityFactory.get_entity('Player1'))
         # self.entity_list.append(EntityFactory.get_entity('Player2'))
         pygame.time.set_timer(EVENT_ENEMY, 4000)
+        pygame.time.set_timer(EVENT_TIMEOUT, 100)
 
     def run(self):
         clock = pygame.time.Clock()
@@ -35,18 +37,28 @@ class Level:
                     if shoot is not None:
                         self.entity_list.append(shoot)
                 if ent.nome == 'Player1':
-                    self.level_text(14, f'Player - Health: {ent.health}  |  Score: {ent.score}', COLOR_YELLOW, (10, 25))
+                    self.level_text(14, f'Player - Health: {ent.health}  |  Score: {ent.score}', COLOR_YELLOW, (250, 5))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == EVENT_ENEMY:
                     self.entity_list.append(EntityFactory.get_entity('Enemy'))
+                if event.type == EVENT_TIMEOUT:
+                    self.timeout -= 10
+                    if self.timeout == 0:
+                        return True
+                found_player = False
+                for ent in self.entity_list:
+                    if isinstance(ent, Player):
+                        found_player = True
+                if not found_player:
+                    return False
 
             # printed text
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', COLOR_WHITE, (10, 5))
-            self.level_text(14, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
-            self.level_text(14, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
+            # self.level_text(14, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
+            # self.level_text(14, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
             pygame.display.flip()
             EntityMediator.verify_collision(entity_list=self.entity_list)
             EntityMediator.verify_health(entity_list=self.entity_list)

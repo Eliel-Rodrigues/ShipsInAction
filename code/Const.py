@@ -7,10 +7,14 @@ COLOR_YELLOW = (225,225,128)
 
 # E
 EVENT_ENEMY = pygame.USEREVENT + 1
+EVENT_TIMEOUT = pygame.USEREVENT + 2
 ENTITY_SPEED = {
     'Level1bg0': 0,
     'Level1bg1': 1,
     'Level1bg2': 2,
+    'Level2bg0': 0,
+    'Level2bg1': 1,
+    'Level2bg2': 2,
     'Player1': 3,
     'Player1at': 2,
     'Player2': 3,
@@ -21,6 +25,9 @@ ENTITY_HEALTH = {
     'Level1bg0': 999,
     'Level1bg1': 999,
     'Level1bg2': 999,
+    'Level2bg0': 999,
+    'Level2bg1': 999,
+    'Level2bg2': 999,
     'Player1': 200,
     'Player1at': 1,
     'Enemy': 20
@@ -30,6 +37,9 @@ ENTITY_DAMAGE = {
     'Level1bg0': 0,
     'Level1bg1': 0,
     'Level1bg2': 0,
+    'Level2bg0': 0,
+    'Level2bg1': 0,
+    'Level2bg2': 0,
     'Player1': 1,
     'Player1at': 10,
     'Enemy': 100
@@ -39,6 +49,9 @@ ENTITY_SCORE = {
     'Level1bg0': 0,
     'Level1bg1': 0,
     'Level1bg2': 0,
+    'Level2bg0': 0,
+    'Level2bg1': 0,
+    'Level2bg2': 0,
     'Player1': 0,
     'Player1at': 0,
     'Enemy': 100
