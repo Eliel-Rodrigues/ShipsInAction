@@ -1,11 +1,13 @@
-from code.Const import WIN_HEIGHT, ENTITY_SPEED
+from abc import ABC
+
+from code.Const import ENTITY_SPEED
 from code.Entity import Entity
 
 
-class Enemy(Entity):
+class PlayerAt(Entity):
+
     def __init__(self, nome: str, position: tuple):
         super().__init__(nome, position)
 
     def move(self):
-        self.rect.centery += ENTITY_SPEED[self.nome]
-
+        self.rect.centery -= ENTITY_SPEED[self.nome]

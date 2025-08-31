@@ -7,20 +7,21 @@ from pygame.font import Font
 from code.Const import COLOR_WHITE, WIN_HEIGHT, EVENT_ENEMY
 from code.Entity import Entity
 from code.EntityFactory import EntityFactory
+from code.EntityMediator import EntityMediator
+from code.Player import Player
 
 
 class Level:
     def __init__(self, window, name, menu_option):
-        self.timeout = 20000
+        self.timeout = 2000
         self.window = window
         self.name = name
         self.menu_option = menu_option
         self.entity_list: list[Entity] = []
         self.entity_list.extend(EntityFactory.get_entity('Level1bg'))
         self.entity_list.append(EntityFactory.get_entity('Player1'))
-        self.entity_list.append(EntityFactory.get_entity('Player2'))
+        # self.entity_list.append(EntityFactory.get_entity('Player2'))
         pygame.time.set_timer(EVENT_ENEMY, 4000)
-
 
     def run(self):
         clock = pygame.time.Clock()
@@ -29,7 +30,10 @@ class Level:
             for ent in self.entity_list:
                 self.window.blit(source=ent.surf, dest=ent.rect)
                 ent.move()
-
+                if isinstance(ent, Player):
+                    shoot = ent.shoot()
+                    if shoot is not None:
+                        self.entity_list.append(shoot)
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -42,7 +46,8 @@ class Level:
             self.level_text(14, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
             self.level_text(14, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
             pygame.display.flip()
-
+            EntityMediator.verify_collision(entity_list=self.entity_list)
+            EntityMediator.verify_health(entity_list=self.entity_list)
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
