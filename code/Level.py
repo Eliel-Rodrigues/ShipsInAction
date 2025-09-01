@@ -13,16 +13,18 @@ from code.Player import Player
 
 class Level:
     def __init__(self, window, name, menu_option):
-        self.timeout = 2000
+        self.timeout = 20000
         self.window = window
         self.name = name
-        print(self.name)
         self.menu_option = menu_option
         self.entity_list: list[Entity] = []
-        self.entity_list.extend(EntityFactory.get_entity(self.name+'bg'))
+        self.entity_list.extend(EntityFactory.get_entity(f'{self.name}bg'))
         self.entity_list.append(EntityFactory.get_entity('Player1'))
+        # player = (EntityFactory.get_entity('Player1'))
+        # player.score = score
+        # self.entity_list.append(player)
         # self.entity_list.append(EntityFactory.get_entity('Player2'))
-        pygame.time.set_timer(EVENT_ENEMY, 4000)
+        pygame.time.set_timer(EVENT_ENEMY, 500)
         pygame.time.set_timer(EVENT_TIMEOUT, 100)
 
     def run(self):
@@ -37,7 +39,7 @@ class Level:
                     if shoot is not None:
                         self.entity_list.append(shoot)
                 if ent.nome == 'Player1':
-                    self.level_text(14, f'Player - Health: {ent.health}  |  Score: {ent.score}', COLOR_YELLOW, (250, 5))
+                    self.level_text(14, f'Player - Health: {ent.health}  |  Score: {ent.score}', COLOR_YELLOW, (10, 25))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
@@ -45,8 +47,11 @@ class Level:
                 if event.type == EVENT_ENEMY:
                     self.entity_list.append(EntityFactory.get_entity('Enemy'))
                 if event.type == EVENT_TIMEOUT:
-                    self.timeout -= 10
+                    self.timeout -= 100
                     if self.timeout == 0:
+                        # for ent in self.entity_list:
+                        #     if isinstance(ent, Player):
+                        #         score[0] = ent.score
                         return True
                 found_player = False
                 for ent in self.entity_list:
@@ -57,8 +62,8 @@ class Level:
 
             # printed text
             self.level_text(14, f'{self.name} - Timeout: {self.timeout / 1000:.1f}s', COLOR_WHITE, (10, 5))
-            # self.level_text(14, f'fps: {clock.get_fps():.0f}', COLOR_WHITE, (10, WIN_HEIGHT - 35))
-            # self.level_text(14, f'entidades: {len(self.entity_list)}', COLOR_WHITE, (10, WIN_HEIGHT - 20))
+            self.level_text(14, 'RU: 4678731', COLOR_WHITE, (10, WIN_HEIGHT - 35))
+            self.level_text(14, 'ELIEL RODRIGUES', COLOR_WHITE, (10, WIN_HEIGHT - 20))
             pygame.display.flip()
             EntityMediator.verify_collision(entity_list=self.entity_list)
             EntityMediator.verify_health(entity_list=self.entity_list)

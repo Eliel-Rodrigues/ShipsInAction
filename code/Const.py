@@ -58,8 +58,9 @@ ENTITY_SCORE = {
 }
 # M
 MENU_OPTION = ('NEW GAME',
-               'SCORE',
                'EXIT')
 #W
 WIN_WIDTH = 576
 WIN_HEIGHT = 324
+
+#x

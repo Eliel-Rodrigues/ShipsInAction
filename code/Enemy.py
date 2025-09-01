@@ -6,7 +6,5 @@ class Enemy(Entity):
     def __init__(self, nome: str, position: tuple):
         super().__init__(nome, position)
 
-
     def move(self):
         self.rect.centery += ENTITY_SPEED[self.nome]
-
